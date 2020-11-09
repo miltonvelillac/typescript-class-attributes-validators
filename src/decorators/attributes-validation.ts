@@ -36,4 +36,11 @@ export class AttributesValidation {
             ValidateClassData.addValidation(target, propertyKey, ValidationsBusiness.integerValidator, options);
         }
     }
+
+    static custom(regex: RegExp | string, customeErrorMessage?: string) {
+        const options = { regex, customeErrorMessage };
+        return function (target: any, propertyKey: string) {
+            ValidateClassData.addValidation(target, propertyKey, ValidationsBusiness.integerValidator, options);
+        }
+    }
 }

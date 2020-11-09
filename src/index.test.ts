@@ -51,6 +51,14 @@ class NumberTest {
     accountNumberCustomErrorMessage?: any;
 }
 
+class CustomTest {
+    @AttributesValidation.custom('[A-Z]$')
+    customData: any;
+
+    @AttributesValidation.custom(new RegExp(/^[a-z]$/), 'Custome error test message for Custom')
+    customDataCustomErrorMessage?: any;
+}
+
 describe('#validate Email', () => {
     test('validate a correct email', () => {
         // Arrange:
@@ -172,7 +180,6 @@ describe('#validate lengthMinMax', () => {
         const errors = ValidateClassData.validate(lenghtTest);
 
         // Assert:
-        console.log(errors);
         expect(errors.nameCustomWrongMessage).toEqual(['Custome error test message']);
     });
 });
@@ -306,6 +313,22 @@ describe('#validate isNumber', () => {
         expect(errors.accountNumber).toEqual(['Property accountNumber must be a number.']);
         expect(errors.accountNumberMaxMin).toEqual(['Property accountNumberMaxMin must be a number between -10 and 20.']);
         expect(errors.accountNumberCustomErrorMessage).toEqual(['Custome error test message for Number']);
+    });
+
+});
+describe('#validate CustomTest', () => {
+    test('validate if the data match with the regex', () => {
+        // Arrange:
+        const requiredTest = new CustomTest();
+        requiredTest.customData = 'TEST DATA';
+        requiredTest.customDataCustomErrorMessage = 'test data';
+
+        // Act:
+        const errors = ValidateClassData.validate(requiredTest);
+
+        // Assert:
+        expect(errors.requiredTest).toBeUndefined();
+        expect(errors.customDataCustomErrorMessage).toBeUndefined();
     });
 
 });

@@ -54,4 +54,12 @@ export class ValidationsBusiness {
         return;
     }
 
+    static customValidator(target: any, propertyKey: string, validatorOptions: any): string | void {
+        const value = target[propertyKey];
+        if (!value) { return; }
+        if (!validatorOptions.regex) { return `Property ${propertyKey} should have a regex`;}
+        const isValid: boolean = RegexData.validateRegexData(value, validatorOptions.regex);
+        return !isValid ? (validatorOptions.customeErrorMessage || `Property ${propertyKey} must be a valid data.`) : undefined;
+    }
+
 }
